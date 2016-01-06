@@ -22,4 +22,4 @@
   - Tiantong Zhou (tiantong@umich.edu)
 
 ### Acknowledgement
-  - This is a course project in EECS485 at the University of Michigan. Please contact me (htsun at umich.edu) or course instructors if you would like to use it for other purpose.
+  - This is a course project in EECS485 at the University of Michigan. Please do not use it for any other purpose.
