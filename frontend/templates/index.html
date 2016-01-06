@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="description" content="Hello, World Wide Web">
+		<meta name="keywords" content="Project Assignment 1">
+		<meta name="author" content="Group 6">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+		<title>Index Page</title>
+	</head>
+
+	<body>
+		<div class="container">
+			<h1>Image Search</h1>
+		</div>
+		<div class="container">
+			<form action="">
+				<div class="form-group">
+					<input id="id" class="form-control" type="text" name="q" placeholder="Search query">
+				</div>
+				<div class="form-group">
+					w = <span class="rangeIndicator">0.5</span><input type="range" id="w" name="w" min="0" max="1" step=".01">
+				</div>
+				<div class="form-group">
+					<input type="submit" value="Search" class="btn btn-primary">
+					<a href="#" class="btn btn-primary showhide">Show all details</a>
+				</div>
+			</form>
+		</div>
+{% if res %}
+		<div class="container">
+			<h2>Search results for <em>{{ request.args.get('q') }}</em></h2>
+		</div>
+	{% for result in results %}
+		<div class="container result" style="margin-bottom: 20px">
+			<h3><a href="{{ result['url'] }}">{{ result['title']}}</a></h3>
+			<p class="dets" style="display: none">
+				<img src="{{ result['img'] }}" alt=""><br>
+				<strong>Categories: </strong>{{ result['cats'] }}<br>
+				<strong>Infobox: </strong>{{ result['details'] }}
+			</p>
+			<a class="sh btn btn-default" href="#" data-status="hidden">Show details</a>
+		</div>
+	{% endfor %}
+{% endif %}
+	</body>
+	<script>
+		$(function() {
+			var show = false;
+			$(".showhide").click(function () {
+				if(!show) {
+					$(".dets").each(function() { $(this).show(); });
+					$(".sh").each(function() {
+						$(this).attr("data-status", "showing");
+						$(this).html("Hide details");
+					});
+					$(".showhide").html("Hide all details");
+					show = true;
+				}
+				else {
+					$(".dets").each(function() { $(this).hide(); });
+					$(".sh").each(function () {
+						$(this).attr("data-status", "hidden");
+						$(this).html("Show details");
+					});
+					$(".showhide").html("Show all details");
+					show = false;
+				}
+			});
+
+			$(".sh").click(function () {
+				var psel = $(this).parent();
+				var at = $(this).attr("data-status");
+				if(at == "hidden") {
+					$(".dets", psel).show();
+					$(this).attr("data-status", "showing");
+				}
+				else {
+					$(".dets", psel).hide();
+					$(this).attr("data-status", "hidden");
+				}
+			});
+
+			$("#w").on('change', function () {
+				$(".rangeIndicator").html($("#w").val());	
+			});
+		});
+	</script>
+</html>
